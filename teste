@@ -1,0 +1,13 @@
+import boto3
+import os
+
+s3 = boto3.resource('s3')
+bucket = s3.Bucket('doctorvianna.com.br')
+
+for obj in bucket.objects.all():
+    if "casa" in obj.key:
+        folder = obj.key.split('/')[-2]
+        if os.path.exists(folder) == False:
+            os.mkdir(folder)
+        bucket.download_file(obj.key, folder + '/' + obj.key.split('/')[-1])
+        print(obj)
