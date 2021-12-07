@@ -11,3 +11,16 @@ for obj in bucket.objects.all():
             os.mkdir(folder)
         bucket.download_file(obj.key, folder + '/' + obj.key.split('/')[-1])
         print(obj)
+
+
+import pymongo
+from pymongo import MongoClient
+import json
+
+client = MongoClient('mongodb://localhost:27017/')
+db = client['test-database']
+
+with open('data.json', 'r') as f:
+    data = json.load(f)
+
+db.collection.insert_one(data)
